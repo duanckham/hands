@@ -197,9 +197,7 @@ func (h *handImpl) Run(options ...HandOption) error {
 			i++
 		}
 
-		if !h.options.all {
-			h.waiting = int32(k)
-		}
+		h.updateWaitingCount(int32(k))
 
 		err = h.runTasks(h.options.ctx, h.tasks[:k])
 		if err != nil {
@@ -231,9 +229,7 @@ func (h *handImpl) Run(options ...HandOption) error {
 			l = l - 1
 		}
 
-		if !h.options.all {
-			h.waiting = int32(r - l)
-		}
+		h.updateWaitingCount(int32(r - l))
 
 		err = h.runTasks(h.options.ctx, h.tasks[l:r])
 		if err != nil {
@@ -338,6 +334,12 @@ func (h *handImpl) setOptions(options ...HandOption) error {
 	}
 
 	return nil
+}
+
+func (h *handImpl) updateWaitingCount(count int32) {
+	if !h.options.all {
+		h.waiting = count
+	}
 }
 
 func (h *handImpl) process(c int, results chan taskResult) error {
