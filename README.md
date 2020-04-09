@@ -13,7 +13,7 @@ Hands is a process controller used to control the execution and return strategie
 
 ### A simple example
 
-```
+```go
 n := 0
 controller := hands.New()
 
@@ -29,8 +29,8 @@ if err != nil {
 
 fmt.Println(n)
 
-# Output:
-# 1
+// Output:
+// 1
 ```
 
 Use the `Do` method to add a task, use the `Run` method to start the task(s).
@@ -45,7 +45,7 @@ Use the `Priority` method to set a priority for a task. The higher the priority,
 
 (`hands.P()` is an alias for `hands.Priority()`.)
 
-```
+```go
 controller := New()
 
 controller.Do(func(ctx context.Context) error {
@@ -79,7 +79,7 @@ HandOption is used to control the execution strategy of the task.
 
 `Fastest()`: When a task is completed, return immediately.
 
-```
+```go
 n := 0
 controller := hands.New()
 
@@ -98,14 +98,15 @@ controller.Run(hands.Fastest())
 
 fmt.Println(n)
 
-# Output:
-# 2
+// Output:
+// 2
 ```
 
 ### `func Percentage(percentage float32) HandOption`
 
 When a certain percentage of tasks are executed, the results are returned.
-```
+
+```go
 n := 0
 controller := hands.New()
 
@@ -133,15 +134,15 @@ controller.Run(hands.Percentage(0.5))
 
 fmt.Println(n)
 
-# Output:
-# 2
+// Output:
+// 2
 ```
 
 ### `func Between(l, r int32) HandOption`
 
 `Between()`: Only execute tasks with a priority within the specified range.
 
-```
+```go
 n := 0
 controller := hands.New()
 
@@ -169,13 +170,13 @@ controller.Run(hands.Between(2, 3))
 
 fmt.Println(n)
 
-# Output:
-# 5
+// Output:
+// 5
 ```
 
 *Note*: If the use the `controller.Run()` method, tasks outside the `Between()` will not be executed, you can use the `controller.RunAll()` method to allow other priority tasks to be executed asynchronously.
 
-```
+```go
 ...
 controller.RunAll(hands.Between(2, 3))
 
@@ -183,16 +184,16 @@ fmt.Println(n)
 time.Sleep(time.Duration(10) * time.Millisecond)
 fmt.Println(n)
 
-# Output:
-# 5
-# 10
+// Output:
+// 5
+// 10
 ```
 
 ### `func In(in []int32) HandOption`
 
 `In()`: Only execute tasks in the specified priority list.
 
-```
+```go
 n := 0
 controller := hands.New()
 
@@ -220,13 +221,13 @@ controller.Run(hands.In([]int32{2, 4}))
 
 fmt.Println(n)
 
-# Output:
-# 6
+// Output:
+// 6
 ```
 
 Yes, the `controller.RunAll()` method can also be used here.
 
-```
+```go
 ...
 controller.RunAll(hands.In([]int32{2, 4}))
 
@@ -234,16 +235,16 @@ fmt.Println(n)
 time.Sleep(time.Duration(10) * time.Millisecond)
 fmt.Println(n)
 
-# Output:
-# 6
-# 10
+// Output:
+// 6
+// 10
 ```
 
 ### `func WithContext(ctx context.Context) HandOption`
 
 Make the task use the specified context.
 
-```
+```go
 c, cancel := context.WithTimeout(context.Background(), 50*time.Millisecond)
 defer cancel()
 
@@ -258,13 +259,13 @@ err := controller.Run(hands.WithContext(c))
 
 fmt.Println(err.Error())
 
-# Output:
-# context deadline exceeded
+// Output:
+// context deadline exceeded
 ```
 
 ## Callback after all tasks have been executed
 
-```
+```go
 n := 0
 controller := hands.New()
 
