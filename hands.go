@@ -71,6 +71,14 @@ func Fastest() HandOption {
 	}
 }
 
+// Percentage option return resutls when a certain percentage of tasks
+// are completed.
+func Percentage(percentage float32) HandOption {
+	return func(o *handOptions) {
+		o.percentage = percentage
+	}
+}
+
 // Between option wait for the task in the priority interval to end.
 func Between(l, r int32) HandOption {
 	return func(o *handOptions) {
@@ -83,14 +91,6 @@ func Between(l, r int32) HandOption {
 func In(in []int32) HandOption {
 	return func(o *handOptions) {
 		o.in = in
-	}
-}
-
-// Percentage option return resutls when a certain percentage of tasks
-// are completed.
-func Percentage(percentage float32) HandOption {
-	return func(o *handOptions) {
-		o.percentage = percentage
 	}
 }
 

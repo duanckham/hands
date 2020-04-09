@@ -76,6 +76,74 @@ func TestFastestAndRunAll(t *testing.T) {
 	assert.Equal(t, n, 7)
 }
 
+func TestPercentageOnly(t *testing.T) {
+	n := 0
+	controller := New()
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(10) * time.Millisecond)
+		n++
+		return nil
+	})
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(20) * time.Millisecond)
+		n++
+		return nil
+	})
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(30) * time.Millisecond)
+		n++
+		return nil
+	})
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(40) * time.Millisecond)
+		n++
+		return nil
+	})
+
+	controller.Run(Percentage(0.5))
+
+	assert.Equal(t, n, 2)
+}
+
+func TestPercentageAndRunAll(t *testing.T) {
+	n := 0
+	controller := New()
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(10) * time.Millisecond)
+		n++
+		return nil
+	})
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(20) * time.Millisecond)
+		n++
+		return nil
+	})
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(30) * time.Millisecond)
+		n++
+		return nil
+	})
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(40) * time.Millisecond)
+		n++
+		return nil
+	})
+
+	controller.Run(Percentage(0.5))
+
+	assert.Equal(t, n, 2)
+	time.Sleep(time.Duration(100) * time.Millisecond)
+	assert.Equal(t, n, 4)
+}
+
 func TestBetweenOnly(t *testing.T) {
 	n := 0
 	controller := New()
@@ -165,74 +233,6 @@ func TestInAndRunAll(t *testing.T) {
 	assert.Equal(t, n, 8)
 	time.Sleep(time.Duration(100) * time.Millisecond)
 	assert.Equal(t, n, 20)
-}
-
-func TestPercentageOnly(t *testing.T) {
-	n := 0
-	controller := New()
-
-	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(10) * time.Millisecond)
-		n++
-		return nil
-	})
-
-	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(20) * time.Millisecond)
-		n++
-		return nil
-	})
-
-	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(30) * time.Millisecond)
-		n++
-		return nil
-	})
-
-	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(40) * time.Millisecond)
-		n++
-		return nil
-	})
-
-	controller.Run(Percentage(0.5))
-
-	assert.Equal(t, n, 2)
-}
-
-func TestPercentageAndRunAll(t *testing.T) {
-	n := 0
-	controller := New()
-
-	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(10) * time.Millisecond)
-		n++
-		return nil
-	})
-
-	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(20) * time.Millisecond)
-		n++
-		return nil
-	})
-
-	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(30) * time.Millisecond)
-		n++
-		return nil
-	})
-
-	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(40) * time.Millisecond)
-		n++
-		return nil
-	})
-
-	controller.Run(Percentage(0.5))
-
-	assert.Equal(t, n, 2)
-	time.Sleep(time.Duration(100) * time.Millisecond)
-	assert.Equal(t, n, 4)
 }
 
 func TestWithContextButTimeout(t *testing.T) {
