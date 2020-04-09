@@ -1,7 +1,7 @@
 # Hands
 
----
 [![Go Report Card](https://goreportcard.com/badge/github.com/duanckham/hands)](https://goreportcard.com/report/github.com/duanckham/hands)
+[![Build Status](https://semaphoreci.com/api/v1/duanckham/hands/branches/master/shields_badge.svg)](https://semaphoreci.com/duanckham/hands)
 [![LICENSE](https://img.shields.io/github/license/duanckham/hands.svg)](https://github.com/duanckham/hands/blob/master/LICENSE)
 
 #### “Dedicated to Brother Chang”
