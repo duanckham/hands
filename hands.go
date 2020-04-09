@@ -104,7 +104,7 @@ func WithContext(ctx context.Context) HandOption {
 // HandController defines hand controller interface.
 type HandController interface {
 	Do(f func(ctx context.Context) error, options ...TaskOption) HandController
-	Done(callback func()) HandController
+	Done(callback func())
 	Run(options ...HandOption) error
 	RunAll(options ...HandOption) error
 }
@@ -147,13 +147,13 @@ func (h *handImpl) Do(f func(ctx context.Context) error, options ...TaskOption) 
 }
 
 // Done method will be called when all tasks completed.
-func (h *handImpl) Done(callback func()) HandController {
+func (h *handImpl) Done(callback func()) {
 	if h.running {
-		log.Fatalf("strongly opposed to setting the `Done()` method after the `Run()` or `RunAll()`")
+		log.Print("can not setting the `Done()` method after the `Run()` or `RunAll()`")
+		return
 	}
 
 	h.callback = callback
-	return h
 }
 
 // Run method will start all tasks.
@@ -164,11 +164,7 @@ func (h *handImpl) Run(options ...HandOption) error {
 		return nil
 	}
 
-	err := h.setOptions(options...)
-	if err != nil {
-		return err
-	}
-
+	h.setOptions(options...)
 	h.size = int32(len(h.tasks))
 	h.waiting = h.size
 
@@ -199,7 +195,7 @@ func (h *handImpl) Run(options ...HandOption) error {
 
 		h.updateWaitingCount(int32(k))
 
-		err = h.runTasks(h.options.ctx, h.tasks[:k])
+		err := h.runTasks(h.options.ctx, h.tasks[:k])
 		if err != nil {
 			return err
 		}
@@ -231,7 +227,7 @@ func (h *handImpl) Run(options ...HandOption) error {
 
 		h.updateWaitingCount(int32(r - l))
 
-		err = h.runTasks(h.options.ctx, h.tasks[l:r])
+		err := h.runTasks(h.options.ctx, h.tasks[l:r])
 		if err != nil {
 			return err
 		}
@@ -328,12 +324,10 @@ func (h *handImpl) runTasksDone() {
 	}
 }
 
-func (h *handImpl) setOptions(options ...HandOption) error {
+func (h *handImpl) setOptions(options ...HandOption) {
 	for _, setter := range options {
 		setter(h.options)
 	}
-
-	return nil
 }
 
 func (h *handImpl) updateWaitingCount(count int32) {

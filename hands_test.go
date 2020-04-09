@@ -2,6 +2,7 @@ package hands
 
 import (
 	"context"
+	"errors"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -179,6 +180,36 @@ func TestBetweenAndRunAll(t *testing.T) {
 	assert.Equal(t, atomic.LoadInt32(&n), int32(5))
 }
 
+func TestBetweenWithWrongRange(t *testing.T) {
+	var n int32
+	controller := New()
+
+	for i := 0; i < 5; i++ {
+		controller.Do(func(ctx context.Context) error {
+			atomic.AddInt32(&n, 1)
+			return nil
+		}, P(int32(i)))
+	}
+
+	err := controller.Run(Between(3, 2))
+
+	assert.NotEmpty(t, err.Error())
+}
+
+func TestBetweenWithSomethingWrong(t *testing.T) {
+	controller := New()
+
+	for i := 0; i < 5; i++ {
+		controller.Do(func(ctx context.Context) error {
+			return errors.New("something wrong")
+		}, P(int32(i)))
+	}
+
+	err := controller.Run(Between(2, 3))
+
+	assert.Equal(t, err.Error(), "something wrong")
+}
+
 func TestInOnly(t *testing.T) {
 	var n int32
 	controller := New()
@@ -285,4 +316,40 @@ func TestDone(t *testing.T) {
 
 	assert.Equal(t, atomic.LoadInt32(&n), int32(5))
 	time.Sleep(time.Duration(500) * time.Millisecond)
+}
+
+func TestWrongDoneOrder(t *testing.T) {
+	var n int32
+	controller := New()
+
+	controller.Do(func(ctx context.Context) error {
+		return nil
+	})
+
+	controller.Run()
+	controller.Done(func() {
+		atomic.AddInt32(&n, 1)
+	})
+
+	time.Sleep(time.Duration(100) * time.Millisecond)
+	assert.Equal(t, atomic.LoadInt32(&n), int32(0))
+}
+
+func TestNegativePriority(t *testing.T) {
+	n := 0
+	controller := New()
+
+	controller.Do(func(ctx context.Context) error {
+		n++
+		return nil
+	}, P(-1))
+
+	controller.Run()
+
+	assert.Equal(t, n, 0)
+}
+
+func TestNonTask(t *testing.T) {
+	controller := New()
+	controller.Run()
 }
