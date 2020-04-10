@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.com/duanckham/hands.svg?branch=master)](https://travis-ci.com/duanckham/hands)
 [![codecov](https://codecov.io/gh/duanckham/hands/branch/master/graph/badge.svg)](https://codecov.io/gh/duanckham/hands)
 [![LICENSE](https://img.shields.io/github/license/duanckham/hands.svg)](https://github.com/duanckham/hands/blob/master/LICENSE)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fduanckham%2Fhands.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fduanckham%2Fhands?ref=badge_shield)
 
 #### “Dedicated to Brother Chang”
 
@@ -298,3 +299,7 @@ controller.RunAll(Fastest())
 assert.Equal(t, n, 5)
 time.Sleep(time.Duration(500) * time.Millisecond)
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fduanckham%2Fhands.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fduanckham%2Fhands?ref=badge_large)
