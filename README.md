@@ -298,3 +298,8 @@ controller.RunAll(Fastest())
 assert.Equal(t, n, 5)
 time.Sleep(time.Duration(500) * time.Millisecond)
 ```
+
+---
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fduanckham%2Fhands.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fduanckham%2Fhands?ref=badge_large)
