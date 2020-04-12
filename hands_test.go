@@ -29,19 +29,19 @@ func TestFastestOnly(t *testing.T) {
 	controller := New()
 
 	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(10) * time.Millisecond)
-		atomic.AddInt32(&n, 1)
-		return nil
-	})
-
-	controller.Do(func(ctx context.Context) error {
-		time.Sleep(time.Duration(10) * time.Millisecond)
-		atomic.AddInt32(&n, 1)
-		return nil
-	})
-
-	controller.Do(func(ctx context.Context) error {
 		atomic.AddInt32(&n, 5)
+		return nil
+	})
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(50) * time.Millisecond)
+		atomic.AddInt32(&n, 1)
+		return nil
+	})
+
+	controller.Do(func(ctx context.Context) error {
+		time.Sleep(time.Duration(50) * time.Millisecond)
+		atomic.AddInt32(&n, 1)
 		return nil
 	})
 
