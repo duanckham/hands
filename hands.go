@@ -110,7 +110,7 @@ type HandController interface {
 }
 
 type handImpl struct {
-	tasks    []*task
+	tasks    []task
 	size     int32
 	waiting  int32
 	running  bool
@@ -142,7 +142,7 @@ func (h *handImpl) Do(f func(ctx context.Context) error, options ...TaskOption) 
 		return h
 	}
 
-	h.addTask(&t)
+	h.addTask(t)
 	return h
 }
 
@@ -260,14 +260,14 @@ func (h *handImpl) RunAll(options ...HandOption) error {
 	return h.Run(options...)
 }
 
-func (h *handImpl) addTask(t *task) {
+func (h *handImpl) addTask(t task) {
 	i := search(h.tasks, t.options.priority)
 	h.tasks = append(h.tasks, t)
 	copy(h.tasks[i+1:], h.tasks[i:])
 	h.tasks[i] = t
 }
 
-func (h *handImpl) runTasks(ctx context.Context, tasks []*task) error {
+func (h *handImpl) runTasks(ctx context.Context, tasks []task) error {
 	c := len(tasks)
 	if c == 0 {
 		return nil
@@ -382,7 +382,7 @@ func (h *handImpl) processPercentage(c int, results chan taskResult) error {
 
 // Utility method.
 
-func search(tasks []*task, priority int32) int {
+func search(tasks []task, priority int32) int {
 	return sort.Search(len(tasks), func(i int) bool {
 		return tasks[i].options.priority > priority
 	})
