@@ -1,10 +1,10 @@
 # Hands
 
+[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go) 
 [![Go Report Card](https://goreportcard.com/badge/github.com/duanckham/hands)](https://goreportcard.com/report/github.com/duanckham/hands)
 [![Build Status](https://travis-ci.com/duanckham/hands.svg?branch=master)](https://travis-ci.com/duanckham/hands)
 [![codecov](https://codecov.io/gh/duanckham/hands/branch/master/graph/badge.svg)](https://codecov.io/gh/duanckham/hands)
 [![LICENSE](https://img.shields.io/github/license/duanckham/hands.svg)](https://github.com/duanckham/hands/blob/master/LICENSE)
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fduanckham%2Fhands.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fduanckham%2Fhands?ref=badge_shield)
 
 #### “Dedicated to Brother Chang”
 
